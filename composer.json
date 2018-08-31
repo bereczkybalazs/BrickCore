@@ -1,0 +1,24 @@
+{
+    "name": "bereczkybalazs/brick-core",
+    "type": "package",
+    "version": "0.0.1",
+    "require": {
+        "phroute/phroute": "^2.1",
+        "league/di": ">=1.1",
+        "symfony/dotenv": "^3.3",
+        "progsmile/request-validator": "^1.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bereczky Balazs",
+            "email": "bereczkybalazs1@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
