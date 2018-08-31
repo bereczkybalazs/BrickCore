@@ -12,11 +12,11 @@ final class Connection
     {
         if (!self::$connection) {
             self::$connection = new PDO(
-                Env::getDatabaseConnection() .
-                ':host=' . Env::getDatabaseHost() . ':' . Env::getDatabasePort() .
-                ';dbname=' . Env::getDatabase(),
-                Env::getDatabasePort(),
-                Env::getDatabasePassword()
+                Config::getDatabaseConnection() .
+                ':host=' . Config::getDatabaseHost() . ':' . Config::getDatabasePort() .
+                ';dbname=' . Config::getDatabase(),
+                Config::getDatabasePort(),
+                Config::getDatabasePassword()
             );
             self::$connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         }

@@ -2,7 +2,7 @@
 
 namespace BereczkyBalazs\BrickCore;
 
-class Env
+class Config
 {
     public static function getDatabaseConnection()
     {

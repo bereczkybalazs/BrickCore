@@ -38,12 +38,12 @@ class Request
 
     protected function validateApiKey()
     {
-        $requireApiSignature = Env::getRequireApiSignature();
-        if ($requireApiSignature && Env::getApiKey() != '') {
+        $requireApiSignature = Config::getRequireApiSignature();
+        if ($requireApiSignature && Config::getApiKey() != '') {
             $headers = apache_request_headers();
             if (
                 !isset($headers[BaseConstants::API_KEY]) ||
-                $headers[BaseConstants::API_KEY] != Env::getApiKey()
+                $headers[BaseConstants::API_KEY] != Config::getApiKey()
             ) {
                 new JsonError(401, "Unauthorized request");
             }
