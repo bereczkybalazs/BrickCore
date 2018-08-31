@@ -31,8 +31,20 @@ class Request
 
     public function validate()
     {
+        $this->validateApiKey();
         $this->authorizeRequest();
         $this->validateRequest();
+    }
+
+    protected function validateApiKey()
+    {
+        $requireApiSignature = filter_var($_ENV['REQUIRE_API_SIGNATURE'], FILTER_VALIDATE_BOOLEAN);
+        if ($requireApiSignature && $_ENV['API_KEY'] != '') {
+            $headers = apache_request_headers();
+            if (!isset($headers['API_KEY']) || $headers['API_KEY'] != $_ENV['API_KEY']) {
+                new JsonError(401, "Unauthorized request");
+            }
+        }
     }
 
     protected function validateRequest()

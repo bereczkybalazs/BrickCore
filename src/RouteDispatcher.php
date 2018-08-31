@@ -103,6 +103,9 @@ class RouteDispatcher
                 $i++;
             }
         }
+        if (empty($reflectionVariables) && !empty($vars) && isset($vars['request'])) {
+            $reflectionVariables[] = new Request($vars['request']);
+        }
         return $reflectionVariables;
     }
 
