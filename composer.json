@@ -8,7 +8,8 @@
         "league/di": ">=1.1",
         "symfony/dotenv": "^3.3",
         "progsmile/request-validator": "^1.1",
-        "curl/curl": "^1.5"
+        "curl/curl": "^1.5",
+        "firebase/php-jwt": "^5.0"
     },
     "license": "MIT",
     "authors": [
