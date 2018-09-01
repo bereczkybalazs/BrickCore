@@ -2,6 +2,8 @@
 
 namespace BereczkyBalazs\BrickCore;
 
+use Firebase\JWT\JWT;
+
 class Config
 {
     public static function getDatabaseConnection()
@@ -47,6 +49,11 @@ class Config
     public static function getRequireApiSignature()
     {
         return filter_var($_ENV['REQUIRE_API_SIGNATURE'], FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public static function getJwtAlg()
+    {
+        return [JWT::$supported_algs['HS256']];
     }
 
     private function __construct()
