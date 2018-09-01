@@ -10,10 +10,12 @@ abstract class Service
     const API_URL_POSTFIX = '_API_URL';
 
     protected $apiKey;
+    protected $apiUrl;
 
     public function __construct()
     {
         $this->setAutoApiKey();
+        $this->setAutoApiUrl();
     }
 
     private function setAutoApiKey()
@@ -22,6 +24,16 @@ abstract class Service
             $autoApiKeyIndex = $this->getEnvKeyFromClassName() . self::API_KEY_POSTFIX;
             if (isset($_ENV[$autoApiKeyIndex])) {
                 $this->setApiKey($_ENV[$autoApiKeyIndex]);
+            }
+        }
+    }
+
+    private function setAutoApiUrl()
+    {
+        if (!isset($this->apiUrl)) {
+            $autoApiUrlIndex = $this->getEnvKeyFromClassName() . self::API_URL_POSTFIX;
+            if (isset($_ENV[$autoApiUrlIndex])) {
+                $this->setApiUrl($_ENV[$autoApiUrlIndex]);
             }
         }
     }
@@ -43,5 +55,16 @@ abstract class Service
     public function getApiKey()
     {
         return $this->apiKey;
+    }
+
+    public function setApiUrl($apiUrl)
+    {
+        $this->apiUrl = $apiUrl;
+        return $this;
+    }
+
+    public function getApiUrl()
+    {
+        return $this->apiUrl;
     }
 }
