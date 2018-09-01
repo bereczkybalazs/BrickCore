@@ -60,6 +60,7 @@ class RouteDispatcher
         $vars['request'] = $this->getRequest();
         $reflection = new ReflectionMethod($resolvedHandler[0], $resolvedHandler[1]);
         $reflectionVariables = $this->getReflectionVars($reflection, $vars);
+        $this->authorizeRequest();
         $this->validateRequest($reflectionVariables);
         $response = call_user_func_array(
             $resolvedHandler,
@@ -69,10 +70,18 @@ class RouteDispatcher
         return $this->dispatchFilters($afterFilter, $response);
     }
 
+    protected function authorizeRequest()
+    {
+        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            Auth::getInstance()->attempt($_SERVER['HTTP_AUTHORIZATION']);
+        }
+    }
+
     protected function getRequest()
     {
         parse_str(file_get_contents('php://input'), $request);
         $request = array_merge_recursive($request, $_GET);
+
         return toObject($request);
     }
 
@@ -106,6 +115,7 @@ class RouteDispatcher
         if (empty($reflectionVariables) && !empty($vars) && isset($vars['request'])) {
             $reflectionVariables[] = new Request($vars['request']);
         }
+
         return $reflectionVariables;
     }
 
@@ -246,6 +256,7 @@ class RouteDispatcher
                     $routes[$httpMethod][2][$varName] = $matches[$i + 1];
                 }
             }
+
             return $routes[$httpMethod];
         }
 

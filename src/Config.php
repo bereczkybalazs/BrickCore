@@ -46,14 +46,14 @@ class Config
         return $_ENV['JWT_KEY'];
     }
 
-    public static function getRequireApiSignature()
-    {
-        return filter_var($_ENV['REQUIRE_API_SIGNATURE'], FILTER_VALIDATE_BOOLEAN);
-    }
-
     public static function getJwtAlg()
     {
         return ['HS256'];
+    }
+
+    public static function getRequireApiSignature()
+    {
+        return filter_var($_ENV['REQUIRE_API_SIGNATURE'], FILTER_VALIDATE_BOOLEAN);
     }
 
     private function __construct()
