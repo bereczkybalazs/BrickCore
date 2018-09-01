@@ -53,7 +53,7 @@ class Config
 
     public static function getJwtAlg()
     {
-        return [JWT::$supported_algs['HS256']];
+        return ['HS256'];
     }
 
     private function __construct()
