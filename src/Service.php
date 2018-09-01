@@ -4,6 +4,8 @@
 namespace BereczkyBalazs\BrickCore;
 
 
+use Curl\Curl;
+
 abstract class Service
 {
     const API_KEY_POSTFIX = '_API_KEY';
@@ -11,17 +13,20 @@ abstract class Service
 
     protected $apiKey;
     protected $apiUrl;
+    protected $curl;
 
-    public function __construct()
+    public function __construct(Curl $curl)
     {
         $this->setAutoApiKey();
         $this->setAutoApiUrl();
+        $this->curl = $curl;
+        $this->curl->setHeader($this->getApiKeyIndex(), $this->getApiKey());
     }
 
     private function setAutoApiKey()
     {
         if (!isset($this->apiKey)) {
-            $autoApiKeyIndex = $this->getEnvKeyFromClassName() . self::API_KEY_POSTFIX;
+            $autoApiKeyIndex = $this->getApiKeyIndex();
             if (isset($_ENV[$autoApiKeyIndex])) {
                 $this->setApiKey($_ENV[$autoApiKeyIndex]);
             }
@@ -38,7 +43,12 @@ abstract class Service
         }
     }
 
-    private function getEnvKeyFromClassName()
+    protected function getApiKeyIndex()
+    {
+        return $this->getEnvKeyFromClassName() . self::API_KEY_POSTFIX;
+    }
+
+    protected function getEnvKeyFromClassName()
     {
         $className = get_class($this);
         $className = str_replace('Service', '', $className);

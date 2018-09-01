@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use BereczkyBalazs\BrickCore\Service;
+use Curl\Curl;
 
 class ServiceTest extends TestCase
 {
@@ -17,7 +18,7 @@ class ServiceTest extends TestCase
         $_ENV[self::TEST_API_URL['key']] = self::TEST_API_URL['value'];
         $this->service = $this->getMockForAbstractClass(
             Service::class,
-            [],
+            [$this->getCurlMock()],
             self::MOCK_CLASS_NAME
         );
     }
@@ -54,5 +55,16 @@ class ServiceTest extends TestCase
     public function test_auto_api_url()
     {
         $this->assertEquals(self::TEST_API_URL['value'], $this->service->getApiUrl());
+    }
+
+    private function getCurlMock()
+    {
+        $curl = $this->getMockBuilder(Curl::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $curl->expects($this->once())
+            ->method('setHeader')
+            ->with(self::TEST_API_KEY['key'], self::TEST_API_KEY['value']);
+        return $curl;
     }
 }
