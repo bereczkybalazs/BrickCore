@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use BereczkyBalazs\BrickCore\Auth;
+use BereczkyBalazs\BrickCore\AuthProvider;
 use BereczkyBalazs\BrickCore\Config;
 use Firebase\JWT\JWT;
 use UnexpectedValueException;
@@ -19,7 +19,7 @@ class AuthTest extends TestCase
     public function setUp()
     {
         $_ENV['JWT_KEY'] = self::JWT_KEY;
-        $this->auth = Auth::getInstance();
+        $this->auth = AuthProvider::getInstance();
         $this->auth->resetToken();
     }
 

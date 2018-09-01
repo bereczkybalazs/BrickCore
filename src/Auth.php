@@ -2,53 +2,39 @@
 
 namespace BereczkyBalazs\BrickCore;
 
-use Firebase\JWT\JWT;
+use BereczkyBalazs\BrickCore\Contracts\AuthInterface;
 
-class Auth
+final class Auth implements AuthInterface
 {
-    private static $instance;
-    private static $token;
-    private static $user;
 
     public static function getInstance()
     {
-        if(!isset(self::$instance)) {
-            self::$instance = new Auth();
-        }
-        return self::$instance;
+        return AuthProvider::getInstance();
     }
 
     public static function authorized()
     {
-        if (isset(self::$token)) {
-            return true;
-        }
-        return false;
+        return AuthProvider::getInstance()->authorized();
     }
 
     public static function getUser()
     {
-        return self::$user;
+        return AuthProvider::getInstance()->getUser();
     }
 
     public static function getToken()
     {
-        return self::$token;
+        return AuthProvider::getInstance()->getToken();
     }
 
     public static function attempt($token)
     {
-        if (!isset(self::$token)) {
-            self::$user = JWT::decode($token, Config::getJwtKey(), Config::getJwtAlg());
-            self::$token = $token;
-        }
-        return self::getInstance();
+        return AuthProvider::getInstance()->attempt($token);
     }
 
     public static function resetToken()
     {
-        self::$token = null;
-        return self::getInstance();
+        return AuthProvider::getInstance()->resetToken();
     }
 
     private function __construct()

@@ -73,7 +73,7 @@ class RouteDispatcher
     protected function authorizeRequest()
     {
         if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            Auth::getInstance()->attempt($_SERVER['HTTP_AUTHORIZATION']);
+            Auth::attempt($_SERVER['HTTP_AUTHORIZATION']);
         }
     }
 
