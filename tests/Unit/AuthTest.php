@@ -11,6 +11,7 @@ class AuthTest extends TestCase
 {
     private $auth;
     const TOKEN = ['user_id' => 4];
+    const ANOTHER_TOKEN = ['user_id' => 543];
     const JWT_KEY = 'test';
 
     public function setUp()
@@ -27,6 +28,19 @@ class AuthTest extends TestCase
         $token = JWT::encode(self::TOKEN, Config::getJwtKey());
         $this->assertEquals(
             $this->auth->setToken($token)->getToken(),
+            $token
+        );
+    }
+
+    /*
+     * @test
+     */
+    public function test_token_cannot_be_overwritten()
+    {
+        $token = JWT::encode(self::TOKEN, Config::getJwtKey());
+        $anotherToken = JWT::encode(self::ANOTHER_TOKEN, Config::getJwtKey());
+        $this->assertEquals(
+            $this->auth->setToken($token)->setToken($anotherToken)->getToken(),
             $token
         );
     }

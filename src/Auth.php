@@ -25,7 +25,9 @@ class Auth
 
     public static function setToken($token)
     {
-        self::$token = $token;
+        if (!isset(self::$token)) {
+            self::$token = $token;
+        }
         return self::getInstance();
     }
 
