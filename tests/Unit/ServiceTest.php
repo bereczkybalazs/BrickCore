@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use BereczkyBalazs\BrickCore\Constants;
 use PHPUnit\Framework\TestCase;
 use BereczkyBalazs\BrickCore\Service;
 use Curl\Curl;
@@ -66,7 +67,7 @@ class ServiceTest extends TestCase
             ->getMock();
         $curl->expects($this->once())
             ->method('setHeader')
-            ->with(self::TEST_API_KEY['key'], self::TEST_API_KEY['value']);
+            ->with(Constants::API_KEY, self::TEST_API_KEY['value']);
         return $curl;
     }
 }

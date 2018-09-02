@@ -20,7 +20,7 @@ abstract class Service
         $this->setAutoApiKey();
         $this->setAutoApiUrl();
         $this->curl = $curl;
-        $this->curl->setHeader($this->getApiKeyIndex(), $this->getApiKey());
+        $this->curl->setHeader(Constants::API_KEY, $this->getApiKey());
     }
 
     private function setAutoApiKey()

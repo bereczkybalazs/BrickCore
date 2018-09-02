@@ -2,7 +2,7 @@
 
 namespace BereczkyBalazs\BrickCore;
 
-class BaseConstants
+class Constants
 {
     const API_KEY = 'API_KEY';
 }

@@ -42,8 +42,8 @@ class Request
         if ($requireApiSignature && Config::getApiKey() != '') {
             $headers = apache_request_headers();
             if (
-                !isset($headers[BaseConstants::API_KEY]) ||
-                $headers[BaseConstants::API_KEY] != Config::getApiKey()
+                !isset($headers[Constants::API_KEY]) ||
+                $headers[Constants::API_KEY] != Config::getApiKey()
             ) {
                 new JsonError(401, "Unauthorized request");
             }
