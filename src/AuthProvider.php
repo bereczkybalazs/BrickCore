@@ -40,7 +40,7 @@ class AuthProvider implements AuthInterface
     public static function attempt($token)
     {
         if (!isset(self::$token)) {
-            self::$user = JWT::decode($token, Config::getJwtKey(), Config::getJwtAlg());
+            self::$user = JWT::decode($token, Config::getJwtKey(), [Config::getJwtAlg()]);
             self::$token = $token;
         }
         return self::getInstance();

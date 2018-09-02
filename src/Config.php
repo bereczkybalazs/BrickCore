@@ -48,7 +48,7 @@ class Config
 
     public static function getJwtAlg()
     {
-        return ['HS256'];
+        return 'HS256';
     }
 
     public static function getRequireApiSignature()
