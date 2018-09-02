@@ -3,7 +3,7 @@
 
 namespace BereczkyBalazs\BrickCore;
 
-use Curl\Curl;
+use BereczkyBalazs\BrickCore\Curl;
 use ReflectionClass;
 
 abstract class Service
