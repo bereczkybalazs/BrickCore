@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use BereczkyBalazs\BrickCore\Constants;
 use PHPUnit\Framework\TestCase;
 use BereczkyBalazs\BrickCore\Service;
-use Curl\Curl;
+use BereczkyBalazs\BrickCore\Curl;
 
 class ServiceTest extends TestCase
 {
