@@ -3,8 +3,8 @@
 
 namespace BereczkyBalazs\BrickCore;
 
-
 use Curl\Curl;
+use ReflectionClass;
 
 abstract class Service
 {
@@ -50,7 +50,8 @@ abstract class Service
 
     protected function getEnvKeyFromClassName()
     {
-        $className = get_class($this);
+        $class = new ReflectionClass($this);
+        $className = $class->getShortName();
         $className = str_replace('Service', '', $className);
         $envIndex = ltrim(strtoupper(preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $className)), '_');
         return $envIndex;
