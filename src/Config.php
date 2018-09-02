@@ -28,7 +28,7 @@ class Config
 
     public static function getDatabaseUser()
     {
-        return $_ENV['DB_USER'];
+        return $_ENV['DB_USERNAME'];
     }
 
     public static function getDatabasePassword()

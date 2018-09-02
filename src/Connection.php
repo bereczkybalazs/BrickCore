@@ -15,7 +15,7 @@ final class Connection
                 Config::getDatabaseConnection() .
                 ':host=' . Config::getDatabaseHost() . ':' . Config::getDatabasePort() .
                 ';dbname=' . Config::getDatabase(),
-                Config::getDatabasePort(),
+                Config::getDatabaseUser(),
                 Config::getDatabasePassword()
             );
             self::$connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
