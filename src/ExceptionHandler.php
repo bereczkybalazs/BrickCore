@@ -4,6 +4,7 @@ namespace BereczkyBalazs\BrickCore;
 
 use BereczkyBalazs\BrickCore\Contracts\ExceptionHandlerInterface;
 use Exception;
+use stdClass;
 
 class ExceptionHandler implements ExceptionHandlerInterface
 {
