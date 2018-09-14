@@ -8,6 +8,8 @@ use stdClass;
 
 class ExceptionHandler implements ExceptionHandlerInterface
 {
+    private $exception;
+
     public function __construct()
     {
         set_exception_handler([$this, 'handle']);
@@ -15,16 +17,26 @@ class ExceptionHandler implements ExceptionHandlerInterface
 
     public function handle(Exception $exception)
     {
-        header('HTTP/1.0 ' . $exception->getCode());
-        header('Content-Type: application/json');
-        echo json_encode($this->getErrorContent($exception));
+        $this->exception = $exception;
+        $this->setHeaders();
+        echo json_encode($this->getErrorContent());
     }
 
-    private function getErrorContent(Exception $exception)
+    private function setHeaders()
+    {
+        if ($this->exception instanceof HttpJsonException) {
+            header('HTTP/1.0 ' . $this->exception->getCode());
+        } else {
+            header('HTTP/1.0 406');
+        }
+        header('Content-Type: application/json');
+    }
+
+    private function getErrorContent()
     {
         $response = new stdClass();
-        $response->code = $exception->getCode();
-        $response->message = $exception->getMessage();
+        $response->code = $this->exception->getCode();
+        $response->message = $this->exception->getMessage();
         return $response;
     }
 }

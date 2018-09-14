@@ -44,7 +44,7 @@ class Request
                 !isset($_SERVER[Constants::API_KEY]) ||
                 $_SERVER[Constants::API_KEY] != Config::getApiKey()
             ) {
-                throw new JsonException("Unauthorized request", 401);
+                throw new HttpJsonException("Unauthorized request", 401);
             }
         }
     }
@@ -56,14 +56,14 @@ class Request
             $this->rules
         );
         if ($validator->fails()) {
-            throw new JsonException('Invalid request', 406);
+            throw new HttpJsonException('Invalid request', 406);
         }
     }
 
     protected function authorizeRequest()
     {
         if (!$this->authenticate()) {
-            throw new JsonException("Unauthorized request", 401);
+            throw new HttpJsonException("Unauthorized request", 401);
         }
     }
 }

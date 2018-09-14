@@ -4,6 +4,6 @@ namespace BereczkyBalazs\BrickCore;
 
 use Exception;
 
-class JsonException extends Exception
+class HttpJsonException extends Exception
 {
 }
