@@ -40,10 +40,9 @@ class Request
     {
         $requireApiSignature = Config::getRequireApiSignature();
         if ($requireApiSignature && Config::getApiKey() != '') {
-            $headers = apache_request_headers();
             if (
-                !isset($headers[Constants::API_KEY]) ||
-                $headers[Constants::API_KEY] != Config::getApiKey()
+                !isset($_SERVER[Constants::API_KEY]) ||
+                $_SERVER[Constants::API_KEY] != Config::getApiKey()
             ) {
                 throw new JsonException("Unauthorized request", 401);
             }
@@ -53,7 +52,7 @@ class Request
     protected function validateRequest()
     {
         $validator = Validator::make(
-            toArray($this->variables),
+            Helpers::toArray($this->variables),
             $this->rules
         );
         if ($validator->fails()) {
