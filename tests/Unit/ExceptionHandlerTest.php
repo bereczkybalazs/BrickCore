@@ -15,8 +15,8 @@ class ExceptionHandlerTest extends TestCase
 {
     public function test_non_http_exception()
     {
-        $response = $this->getResponse();
-        $this->expectOutputString(json_encode($response));
+        $exception = new Exception('test');
+        $this->expectOutputString($this->getOutput($exception));
         $header = $this->getHeaderMock();
         $header
             ->expects($this->any())
@@ -27,32 +27,32 @@ class ExceptionHandlerTest extends TestCase
             );
         $this->headerShouldBuild($header);
         $exceptionHandler = new ExceptionHandler($header);
-        $exceptionHandler->handle(new Exception($response->message, $response->code));
+        $exceptionHandler->handle($exception);
     }
 
     public function test_http_exception()
     {
-        $response = $this->getResponse(401);
-        $this->expectOutputString(json_encode($response));
+        $exception = new HttpJsonException('test', 401);
+        $this->expectOutputString($this->getOutput($exception));
         $header = $this->getHeaderMock();
         $header
             ->expects($this->any())
             ->method('add')
             ->withConsecutive(
                 ['Content-Type', 'application/json'],
-                ['HTTP/1.0', $response->code]
+                ['HTTP/1.0', $exception->getCode()]
             );
         $this->headerShouldBuild($header);
         $exceptionHandler = new ExceptionHandler($header);
-        $exceptionHandler->handle(new HttpJsonException($response->message, $response->code));
+        $exceptionHandler->handle($exception);
     }
 
-    private function getResponse($code = 406, $message = 'test')
+    private function getOutput(Exception $exception)
     {
         $response = new stdClass();
-        $response->code = $code;
-        $response->message = $message;
-        return $response;
+        $response->code = $exception->getCode();
+        $response->message = $exception->getMessage();
+        return json_encode($response);
     }
 
     private function headerShouldBuild($header)
