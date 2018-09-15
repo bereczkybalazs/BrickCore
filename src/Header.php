@@ -4,21 +4,28 @@ namespace BereczkyBalazs\BrickCore;
 
 use BereczkyBalazs\BrickCore\Contracts\HeaderInterface;
 
-final class Header implements HeaderInterface
+class Header implements HeaderInterface
 {
+    private $headers = [];
 
-    public static function getInstance()
+    public function add($key, $value)
     {
-        return HeaderProvider::getInstance();
+        $header = new \stdClass();
+        $header->key = $key;
+        $header->value = $value;
+        $this->headers[] = $header;
+        return $this;
     }
 
-    public static function add($key, $value)
+    public function get()
     {
-        return self::getInstance()->add($key, $value);
+        return $this->headers;
     }
 
-    public static function build()
+    public function build()
     {
-        return self::getInstance()->build();
+        foreach ($this->headers as $header) {
+            header($header->key . ': ' . $header->value);
+        }
     }
 }

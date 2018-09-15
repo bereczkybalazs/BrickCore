@@ -9,9 +9,11 @@ use stdClass;
 class ExceptionHandler implements ExceptionHandlerInterface
 {
     private $exception;
+    private $header;
 
-    public function __construct()
+    public function __construct(Header $header)
     {
+        $this->header = $header;
         set_exception_handler([$this, 'handle']);
     }
 
@@ -24,12 +26,13 @@ class ExceptionHandler implements ExceptionHandlerInterface
 
     private function setHeaders()
     {
+        $this->header->add('Content-Type', 'application/json');
         if ($this->exception instanceof HttpJsonException) {
-            header('HTTP/1.0 ' . $this->exception->getCode());
+            $this->header->add('HTTP/1.0', $this->exception->getCode());
         } else {
-            header('HTTP/1.0 406');
+            $this->header->add('HTTP/1.0', 406);
         }
-        header('Content-Type: application/json');
+        $this->header->build();
     }
 
     private function getErrorContent()
